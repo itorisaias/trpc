@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async signIn({ user }) {
-      logger.debug(user);
+      logger.debug(user, "signIn");
 
       if (user.email) {
         await prisma.user.upsert({
@@ -33,6 +33,21 @@ export const authOptions: NextAuthOptions = {
       }
 
       return true;
+    },
+    async session(params) {
+      logger.debug(params, "session");
+
+      return params.session;
+    },
+    async jwt(params) {
+      logger.debug(params, "jwt");
+
+      return params.token;
+    },
+    async redirect(params) {
+      logger.debug(params, "redirect");
+
+      return params.baseUrl;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

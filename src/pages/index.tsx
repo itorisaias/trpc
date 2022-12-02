@@ -6,9 +6,23 @@ import { trpc } from '../utils/trpc';
 
 export default function Home() {
   const hello = trpc.hello.useQuery({ name: 'client' });
+  const createPostMutation = trpc.post.create.useMutation()
+  
+  const createPost = async () => {
+    const result = await createPostMutation.mutateAsync({
+      title: `Titulo gerado em ${Date.now()}`,
+      content: `Generate: ${new Date()}`
+    })
+
+    console.log({ result });
+  }
 
   if (!hello.data) {
     return <div>Loading...</div>;
+  }
+
+  if (createPostMutation.isLoading) {
+    return <div>criando post</div>
   }
 
   return (
@@ -16,6 +30,8 @@ export default function Home() {
       <p className='text-3xl font-bold underline'>{hello.data.msg}</p>
 
       <LoginButton />
+
+      <button onClick={createPost}>create post</button>
 
       <Head>
         <title>Create Next App</title>
