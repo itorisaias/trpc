@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import LoginButton from '../components/login-btn';
 import styles from '../styles/Home.module.css'
 import { trpc } from '../utils/trpc';
 
@@ -14,6 +15,8 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <p>{hello.data.greeting}</p>
+
+      <LoginButton />
 
       <Head>
         <title>Create Next App</title>
