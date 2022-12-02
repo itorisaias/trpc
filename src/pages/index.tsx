@@ -5,16 +5,15 @@ import styles from '../styles/Home.module.css'
 import { trpc } from '../utils/trpc';
 
 export default function Home() {
-  const hello = trpc.hello.useQuery({ text: 'client' });
+  const hello = trpc.hello.useQuery({ name: 'client' });
 
   if (!hello.data) {
     return <div>Loading...</div>;
   }
 
-
   return (
     <div className={styles.container}>
-      <p>{hello.data.greeting}</p>
+      <p className='text-3xl font-bold underline'>{hello.data.msg}</p>
 
       <LoginButton />
 

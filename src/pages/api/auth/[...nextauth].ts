@@ -1,5 +1,7 @@
-import NextAuth, { NextAuthOptions } from "next-auth"
-import GithubProvider from "next-auth/providers/github"
+import NextAuth, { NextAuthOptions } from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+import logger from "../../../utils/logger";
+import { prisma } from "../../../utils/prisma";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -11,7 +13,29 @@ export const authOptions: NextAuthOptions = {
   theme: {
     colorScheme: "auto",
   },
-  secret: process.env.NEXTAUTH_SECRET,
-}
+  callbacks: {
+    async signIn({ user }) {
+      logger.debug(user);
 
-export default NextAuth(authOptions)
+      if (user.email) {
+        await prisma.user.upsert({
+          where: {
+            email: user.email,
+          },
+          create: {
+            email: user.email,
+            name: user.name,
+          },
+          update: {
+            name: user.name,
+          },
+        });
+      }
+
+      return true;
+    },
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+};
+
+export default NextAuth(authOptions);
