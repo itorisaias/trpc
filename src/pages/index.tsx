@@ -1,35 +1,45 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import LoginButton from '../components/login-btn';
-import styles from '../styles/Home.module.css'
-import { trpc } from '../utils/trpc';
+import Head from "next/head";
+import Image from "next/image";
+import LoginButton from "../components/login-btn";
+import styles from "../styles/Home.module.css";
+import { trpc } from "../utils/trpc";
 
 export default function Home() {
-  const hello = trpc.hello.useQuery({ name: 'client' });
-  const createPostMutation = trpc.post.create.useMutation()
-  
+  const hello = trpc.hello.useQuery({ name: "client" });
+  const postQuery = trpc.post.list.useQuery();
+  const createPostMutation = trpc.post.create.useMutation();
+
   const createPost = async () => {
     const result = await createPostMutation.mutateAsync({
       title: `Titulo gerado em ${Date.now()}`,
-      content: `Generate: ${new Date()}`
-    })
+      content: `Generate: ${new Date()}`,
+    });
 
     console.log({ result });
-  }
+  };
 
-  if (!hello.data) {
+  if (!hello.data || !postQuery.data) {
     return <div>Loading...</div>;
   }
 
   if (createPostMutation.isLoading) {
-    return <div>criando post</div>
+    return <div>criando post</div>;
   }
 
   return (
     <div className={styles.container}>
-      <p className='text-3xl font-bold underline'>{hello.data.msg}</p>
+      <p className="text-3xl font-bold underline">{hello.data.msg}</p>
 
       <LoginButton />
+
+      <ul>
+        {postQuery.data.length === 0 && (
+          <li>Nenhum post</li>
+        )}
+        {postQuery.data.map((post) => {
+          return <li key={post.id}>{post.title}</li>;
+        })}
+      </ul>
 
       <button onClick={createPost}>create post</button>
 
@@ -45,7 +55,7 @@ export default function Home() {
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
@@ -88,12 +98,12 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
+  );
 }

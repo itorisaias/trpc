@@ -24,7 +24,7 @@ export const postRouter = router({
 
       return newPost;
     }),
-  list: protectedProcedure.query(({ ctx }) => {
+  list: publicProcedure.query(({ ctx }) => {
     return ctx.prisma.post.findMany();
   }),
 });
