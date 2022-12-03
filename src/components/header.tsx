@@ -2,11 +2,25 @@
 
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function Header() {
   const session = useSession();
+  const router = useRouter()
   const [open, setOpen] = useState(false);
+
+  const activeTab = (tabName: string) => {
+    if (router.query.sort_by === 'created_at' && tabName === 'recentes') {
+      return true
+    }
+
+    if ((router.query.sort_by === 'rating' || !router.query.sort_by) && tabName === 'relevantes') {
+      return true
+    }
+
+    return false
+  }
 
   return (
     <nav className="bg-gray-800">
@@ -85,16 +99,16 @@ export default function Header() {
               <div className="flex space-x-4">
                 {/*  Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                 <Link
-                  href="/"
-                  className="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium"
+                  href="/?sort_by=rating"
+                  className={`${activeTab('relevantes') ? 'active-tab' : 'inactive-tab'} px-3 py-2 rounded-md text-sm font-medium`}
                   aria-current="page"
                 >
                   Relevantes
                 </Link>
 
                 <Link 
-                  href="/?order_by=rating"
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  href="/?sort_by=created_at"
+                  className={`${activeTab('recentes') ? 'active-tab' : 'inactive-tab'} px-3 py-2 rounded-md text-sm font-medium`}
                 >
                   Recentes
                 </Link>

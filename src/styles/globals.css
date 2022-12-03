@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .active-tab {
+    @apply bg-gray-900 text-white
+  }
+
+  .inactive-tab {
+    @apply hover:text-white text-gray-300 hover:bg-gray-700
+  }
+}
+
 html,
 body {
   padding: 0;
