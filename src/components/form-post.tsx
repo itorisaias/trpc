@@ -3,10 +3,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 export type FormProps = {
   onSubmit: SubmitHandler<FormFieldValues>;
 };
+
 export type FormFieldValues = {
   title: string;
   content: string;
-  files: FileList[];
 }
 
 export default function FormPost({ onSubmit }: FormProps) {
@@ -81,7 +81,7 @@ export default function FormPost({ onSubmit }: FormProps) {
                 </div>
               </div> */}
 
-          <div>
+          {/* <div>
             <label className="block text-sm font-medium text-gray-700">
               Cover photo
             </label>
@@ -116,9 +116,9 @@ export default function FormPost({ onSubmit }: FormProps) {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
 
-          <input type="file" id="files" {...register('files')} />
+          {/* <input type="file" id="files" {...register('files')} /> */}
 
           {/* <div>
             <div className="flex items-start">

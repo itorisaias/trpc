@@ -25,6 +25,10 @@ export const postRouter = router({
       return newPost;
     }),
   list: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.post.findMany();
+    return ctx.prisma.post.findMany({
+      include: {
+        author: true
+      }
+    });
   }),
 });

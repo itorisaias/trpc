@@ -1,31 +1,30 @@
-import Head from "next/head";
-import Image from "next/image";
-import FormPost, { FormFieldValues } from "../components/form-post";
-import LoginButton from "../components/login-btn";
-import styles from "../styles/Home.module.css";
+import { useRouter } from "next/router";
+import FabIcon from "../components/fab-icon";
+import { PostCardProps } from "../components/post-card";
+import PostList from "../components/post-list";
 import { trpc } from "../utils/trpc";
 
-export default function Home() {
-  const createPostMutation = trpc.post.create.useMutation();
+export default function HomePage() {
+  const listPostQuery = trpc.post.list.useQuery();
+  const router = useRouter()
 
-  const onSubmit = async (data: FormFieldValues) => {
-    const result = await createPostMutation.mutateAsync({
-      title: data.title,
-      content: data.content,
-    });
-
-    console.log({ result });
-  };
-
-  if (createPostMutation.isLoading) {
-    return <div>criando post</div>;
+  if (listPostQuery.isLoading) {
+    return <div>Carregando...</div>;
   }
 
   return (
-    <div className={styles.container}>
-      <LoginButton />
+    <div>
+      <div className="container mx-auto">
+        <PostList
+          posts={
+            listPostQuery.data?.map(
+              (item) => ({ ...item } as PostCardProps)
+            ) || []
+          }
+        />
+      </div>
 
-      <FormPost onSubmit={onSubmit} />
+      <FabIcon onClick={() => router.push('/post/new')} />
     </div>
   );
 }
