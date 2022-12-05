@@ -2,7 +2,7 @@ import { inferAsyncReturnType } from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { getSession } from "next-auth/react";
 import logger from "../utils/logger";
-import { prisma } from "../utils/prisma";
+import { prisma } from "./db/prisma";
 
 export async function createContext(opts: trpcNext.CreateNextContextOptions) {
   const session = await getSession({ req: opts.req });
