@@ -1,13 +1,23 @@
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export type FormProps = {
-  onSubmit: SubmitHandler<FormFieldValues>;
+  onSubmit: SubmitHandler<FormPayload>;
 };
 
 export type FormFieldValues = {
   title: string;
   content: string;
+};
+export enum ACTIONS {
+  SAVE = "save",
+  SAVE_PUBLISH = "save_publish",
 }
+
+export type FormPayload = {
+  action: ACTIONS;
+  payload: FormFieldValues;
+};
 
 export default function FormPost({ onSubmit }: FormProps) {
   const {
@@ -15,9 +25,17 @@ export default function FormPost({ onSubmit }: FormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<FormFieldValues>();
+  const [action, setAction] = useState<ACTIONS>(ACTIONS.SAVE);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit((payload) =>
+        onSubmit({
+          action,
+          payload,
+        })
+      )}
+    >
       <div className="shadow sm:overflow-hidden sm:rounded-md">
         <div className="space-y-6 bg-white px-4 py-5 sm:p-6">
           <div>
@@ -35,6 +53,9 @@ export default function FormPost({ onSubmit }: FormProps) {
                 {...register("title", { required: true, maxLength: 50 })}
               />
             </div>
+            <p className="mt-2 text-sm text-gray-500">
+              Brief description for your profile. URLs are hyperlinked.
+            </p>
           </div>
 
           <div>
@@ -146,8 +167,17 @@ export default function FormPost({ onSubmit }: FormProps) {
           <button
             type="submit"
             className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            onClick={() => setAction(ACTIONS.SAVE)}
           >
             Save
+          </button>
+
+          <button
+            type="submit"
+            className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            onClick={() => setAction(ACTIONS.SAVE_PUBLISH)}
+          >
+            Save and Publish
           </button>
         </div>
       </div>
