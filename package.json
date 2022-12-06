@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db-seed": "NODE_ENV=development prisma db seed"
+    "db-seed": "NODE_ENV=development npx prisma db seed"
   },
   "dependencies": {
+    "@happykit/analytics": "^1.0.1",
     "@happykit/flags": "^3.0.0",
     "@prisma/client": "^4.7.1",
     "@tanstack/react-query": "^4.19.0",
