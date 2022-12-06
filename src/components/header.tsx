@@ -193,7 +193,7 @@ export default function Header() {
                   tabIndex={-1}
                 >
                   {/*  Active: "bg-gray-100", Not Active: "" */}
-                  <a
+                  <Link
                     href="/user/profile"
                     className="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
@@ -201,7 +201,7 @@ export default function Header() {
                     id="user-menu-item-0"
                   >
                     Your Profile
-                  </a>
+                  </Link>
                   <a
                     href="#"
                     className="block px-4 py-2 text-sm text-gray-700"
