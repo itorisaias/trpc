@@ -7,20 +7,27 @@ import { useState } from "react";
 
 export default function Header() {
   const session = useSession();
-  const router = useRouter()
+  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   const activeTab = (tabName: string) => {
-    if (router.query.sort_by === 'created_at' && tabName === 'recentes') {
-      return true
+    if (router.pathname !== "/") {
+      return false;
     }
 
-    if ((router.query.sort_by === 'rating' || !router.query.sort_by) && tabName === 'relevantes') {
-      return true
+    if (router.query.sort_by === "published_at" && tabName === "recentes") {
+      return true;
     }
 
-    return false
-  }
+    if (
+      (router.query.sort_by === "views" || !router.query.sort_by) &&
+      tabName === "relevantes"
+    ) {
+      return true;
+    }
+
+    return false;
+  };
 
   return (
     <nav className="bg-gray-800">
@@ -47,13 +54,13 @@ export default function Header() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
-                  stroke-linejoin="round"
+                  strokeLinejoin="round"
                   d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                 />
               </svg>
@@ -69,13 +76,13 @@ export default function Header() {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
                 aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
-                  stroke-linejoin="round"
+                  strokeLinejoin="round"
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
@@ -99,16 +106,20 @@ export default function Header() {
               <div className="flex space-x-4">
                 {/*  Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
                 <Link
-                  href="/?sort_by=rating"
-                  className={`${activeTab('relevantes') ? 'active-tab' : 'inactive-tab'} px-3 py-2 rounded-md text-sm font-medium`}
+                  href="/?sort_by=views"
+                  className={`${
+                    activeTab("relevantes") ? "active-tab" : "inactive-tab"
+                  } px-3 py-2 rounded-md text-sm font-medium`}
                   aria-current="page"
                 >
                   Relevantes
                 </Link>
 
-                <Link 
-                  href="/?sort_by=created_at"
-                  className={`${activeTab('recentes') ? 'active-tab' : 'inactive-tab'} px-3 py-2 rounded-md text-sm font-medium`}
+                <Link
+                  href="/?sort_by=published_at"
+                  className={`${
+                    activeTab("recentes") ? "active-tab" : "inactive-tab"
+                  } px-3 py-2 rounded-md text-sm font-medium`}
                 >
                   Recentes
                 </Link>
@@ -129,13 +140,13 @@ export default function Header() {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   aria-hidden="true"
                 >
                   <path
                     strokeLinecap="round"
-                    stroke-linejoin="round"
+                    strokeLinejoin="round"
                     d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
                   />
                 </svg>
@@ -183,7 +194,7 @@ export default function Header() {
                 >
                   {/*  Active: "bg-gray-100", Not Active: "" */}
                   <a
-                    href="#"
+                    href="/user/profile"
                     className="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabIndex={-1}
