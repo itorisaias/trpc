@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import FormPost, { ACTIONS, FormPayload } from "../../components/form-post";
-import { trpc } from "../../utils/trpc";
+import FormPost, { ACTIONS, FormPayload } from "components/form-post";
+import { trpc } from "utils/trpc";
 
 export default function PostNewPage() {
   const router = useRouter();
