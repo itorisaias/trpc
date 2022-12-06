@@ -2,7 +2,6 @@ import PostCard, { PostCardProps } from "./post-card";
 
 export type PostListProps = {
   posts: PostCardProps[];
-
 };
 
 export default function PostList({ posts }: PostListProps) {
