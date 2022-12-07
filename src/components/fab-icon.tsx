@@ -1,8 +1,9 @@
 export type FabiconProps = {
   onClick?: () => void;
+  label?: string
 };
 
-export default function FabIcon({ onClick }: FabiconProps) {
+export default function FabIcon({ onClick, label }: FabiconProps) {
   return (
     <button
       type="button"
@@ -16,6 +17,7 @@ export default function FabIcon({ onClick }: FabiconProps) {
         strokeWidth="1.5"
         stroke="currentColor"
         className="w-11 h-11"
+        aria-label={label}
       >
         <path
           strokeLinecap="round"
