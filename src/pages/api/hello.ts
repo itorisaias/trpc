@@ -19,6 +19,7 @@ export default function handler(
   console.log(`X-Forwarded-For: ${req.headers['X-Forwarded-For']}`)
   console.log(`CF-Connecting-IP: ${req.headers['CF-Connecting-IP']}`)
   console.log(`True-Client-IP: ${req.headers['True-Client-IP']}`)
+  console.log(req.headers)
 
   res.status(200).json({ name: 'John Doe' })
 }
