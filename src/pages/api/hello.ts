@@ -17,7 +17,7 @@ export default function handler(
   console.log(`forwarded ${forwarded}`)
   console.log(`detectedIp ${detectedIp}`)
   console.log(`X-Forwarded-For: ${req.headers['X-Forwarded-For']}`)
-  console.log(`CF-Connecting-IP: ${req.headers['CF-Connecting-IP']}`)
+  console.log(`CF-Connecting-IP: ${req.headers['cf-connecting-ip']}`)
   console.log(`True-Client-IP: ${req.headers['True-Client-IP']}`)
   console.log(req.headers)
 
